@@ -1,0 +1,36 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <linearGradient id="militaryGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#556B2F"></stop>
+      <stop offset="100%" stop-color="#2F3E1F"></stop>
+    </linearGradient>
+
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="12" stdDeviation="15" flood-color="#000" flood-opacity="0.6"></feDropShadow>
+    </filter>
+  </defs>
+
+  <!-- Shield Background -->
+  <path d="M250 60 
+           L420 130 
+           L390 330 
+           Q250 460 110 330 
+           L80 130 Z" fill="url(#militaryGrad)" stroke="#1C2513" stroke-width="8" filter="url(#shadow)"></path>
+
+  <!-- Tactical Lines -->
+  <line x1="120" y1="180" x2="380" y2="180" stroke="#A3B18A" stroke-width="10" stroke-linecap="round"></line>
+
+  <path d="M150 200 L250 360 L350 200" fill="none" stroke="#DAD7CD" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"></path>
+
+  <!-- Main T -->
+  <text x="250" y="230" text-anchor="middle" font-family="Impact, Arial Black, sans-serif" font-size="120" fill="#E9EDC9" letter-spacing="6">
+        T
+  </text>
+
+  <!-- Brand Name -->
+  <text x="250" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" fill="#E9EDC9" letter-spacing="8">
+        TAVANA
+  </text>
+
+</svg>
