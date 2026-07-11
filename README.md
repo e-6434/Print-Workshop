@@ -86,7 +86,7 @@ npm run dev
 ## 🤝 Contributors
 
 - **Erfan Ebrahimkhani**
-- **(Your Teammate)**
+- **Ali yeganeh**
 
 ---
 
