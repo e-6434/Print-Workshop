@@ -1,26 +1,25 @@
-import Home from "../pages/dashboard/home";
-import PrintOrder from "../pages/dashboard/PrintOrder";
-import OrdersList from "../pages/dashboard/OrdersList";
-import { Avatar } from "@material-tailwind/react";
+import Home from "../pages/Home";
+import NewOrder from "../pages/NewOrder";
+import OrdersList from "../pages/OrdersList";
 
 const routes = [
   {
     layout: "dashboard",
     pages: [
       {
-        icon: <Avatar src="/img/admin_d.svg"/>,
+        icon: "Home",
         name: "داشبورد",
         path: "/home",
         element: <Home />,
       },
       {
-       icon: <Avatar src="/img/anbar.svg"/>,
-        name: "ثبت سفارش چاپ",
-        path: "/print-order",
-        element: <PrintOrder />,
+        icon: "Printer",
+        name: "ثبت سفارش",
+        path: "/new-order",
+        element: <NewOrder />,
       },
       {
-        icon: <Avatar src="/img/admin_d.svg"/>,
+        icon: "List",
         name: "لیست سفارشات",
         path: "/orders",
         element: <OrdersList />,

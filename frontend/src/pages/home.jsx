@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   PlusIcon,
-  DocumentTextIcon,
   ClipboardDocumentListIcon,
-  UserGroupIcon,
   CalendarIcon,
-  CheckCircleIcon,
   ClockIcon,
+  DocumentTextIcon,
+  UserGroupIcon,
 } from "@heroicons/react/24/outline";
 
 export function Home() {
@@ -17,9 +16,14 @@ export function Home() {
     today: 0,
     week: 0,
     month: 0,
+    projects: 0,
   });
 
   useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = () => {
     const savedOrders = JSON.parse(localStorage.getItem("orders") || "[]");
     setOrders(savedOrders);
 
@@ -42,20 +46,25 @@ export function Home() {
       (order) => new Date(order.timestamp) >= monthAgo
     );
 
+    const totalProjects = savedOrders.reduce(
+      (sum, order) => sum + (order.projects?.length || 0),
+      0
+    );
+
     setStats({
       total: savedOrders.length,
       today: todayOrders.length,
       week: weekOrders.length,
       month: monthOrders.length,
+      projects: totalProjects,
     });
-  }, []);
+  };
 
-  // آخرین ۵ سفارش
   const recentOrders = orders.slice(-5).reverse();
 
   return (
-    <div dir="rtl" className="p-6">
-      {/* هدر */}
+    <div dir="rtl" className="p-6 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* ===== هدر ===== */}
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">🏠 داشبورد چاپخانه</h1>
@@ -70,13 +79,13 @@ export function Home() {
         </Link>
       </div>
 
-      {/* کارت‌های آماری */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl shadow-sm border border-blue-100">
+      {/* ===== کارت‌های آماری ===== */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-blue-600 font-medium">کل سفارشات</p>
-              <p className="text-3xl font-bold text-blue-800 mt-1">{stats.total}</p>
+              <p className="text-sm text-gray-500">کل سفارشات</p>
+              <p className="text-2xl font-bold text-blue-600 mt-1">{stats.total}</p>
             </div>
             <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center">
               <ClipboardDocumentListIcon className="w-6 h-6 text-blue-600" />
@@ -84,11 +93,11 @@ export function Home() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl shadow-sm border border-green-100">
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-green-600 font-medium">سفارشات امروز</p>
-              <p className="text-3xl font-bold text-green-800 mt-1">{stats.today}</p>
+              <p className="text-sm text-gray-500">سفارشات امروز</p>
+              <p className="text-2xl font-bold text-green-600 mt-1">{stats.today}</p>
             </div>
             <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center">
               <CalendarIcon className="w-6 h-6 text-green-600" />
@@ -96,11 +105,11 @@ export function Home() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-6 rounded-2xl shadow-sm border border-purple-100">
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-purple-600 font-medium">این هفته</p>
-              <p className="text-3xl font-bold text-purple-800 mt-1">{stats.week}</p>
+              <p className="text-sm text-gray-500">این هفته</p>
+              <p className="text-2xl font-bold text-purple-600 mt-1">{stats.week}</p>
             </div>
             <div className="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center">
               <ClockIcon className="w-6 h-6 text-purple-600" />
@@ -108,11 +117,11 @@ export function Home() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-2xl shadow-sm border border-orange-100">
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-orange-600 font-medium">این ماه</p>
-              <p className="text-3xl font-bold text-orange-800 mt-1">{stats.month}</p>
+              <p className="text-sm text-gray-500">تعداد پروژه‌ها</p>
+              <p className="text-2xl font-bold text-orange-600 mt-1">{stats.projects}</p>
             </div>
             <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center">
               <DocumentTextIcon className="w-6 h-6 text-orange-600" />
@@ -121,7 +130,7 @@ export function Home() {
         </div>
       </div>
 
-      {/* بخش پایین: سفارشات اخیر + اقدامات سریع */}
+      {/* ===== بخش پایین ===== */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* سفارشات اخیر */}
         <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
@@ -141,7 +150,7 @@ export function Home() {
               <p className="text-gray-500">هنوز سفارشی ثبت نشده است</p>
               <Link
                 to="/dashboard/print-order"
-                className="inline-block mt-4 px-6 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all"
+                className="inline-block mt-4 px-6 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all text-sm"
               >
                 ثبت اولین سفارش
               </Link>
@@ -154,20 +163,20 @@ export function Home() {
                   className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 font-bold">
-                      {order.customerName?.charAt(0) || "?"}
+                    <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 font-bold text-sm">
+                      {order.customer?.name?.charAt(0) || "?"}
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-800">
-                        {order.customerName || "نامشخص"}
+                      <p className="font-semibold text-gray-800 text-sm">
+                        {order.customer?.name || "نامشخص"}
                       </p>
-                      <p className="text-sm text-gray-500">
-                        📄 {order.paperType || "-"} | 🎨 {order.printType || "-"}
+                      <p className="text-xs text-gray-500">
+                        {order.projects?.length || 0} پروژه
                       </p>
                     </div>
                   </div>
                   <div className="text-left">
-                    <span className="text-xs bg-green-100 text-green-800 px-3 py-1 rounded-full">
+                    <span className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full">
                       {order.orderNumber || "CH-000000"}
                     </span>
                     <p className="text-xs text-gray-400 mt-1">
@@ -193,8 +202,8 @@ export function Home() {
                   <PlusIcon className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-800">ثبت سفارش جدید</p>
-                  <p className="text-sm text-gray-500">ایجاد یک سفارش چاپ جدید</p>
+                  <p className="font-semibold text-gray-800 text-sm">ثبت سفارش جدید</p>
+                  <p className="text-xs text-gray-500">ایجاد یک سفارش جدید</p>
                 </div>
               </div>
             </Link>
@@ -208,8 +217,8 @@ export function Home() {
                   <ClipboardDocumentListIcon className="w-5 h-5 text-purple-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-800">مشاهده سفارشات</p>
-                  <p className="text-sm text-gray-500">لیست تمام سفارشات ثبت شده</p>
+                  <p className="font-semibold text-gray-800 text-sm">مشاهده سفارشات</p>
+                  <p className="text-xs text-gray-500">لیست تمام سفارشات</p>
                 </div>
               </div>
             </Link>
@@ -217,29 +226,14 @@ export function Home() {
             <div className="block w-full text-right p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-100">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
-                  <CheckCircleIcon className="w-5 h-5 text-green-600" />
+                  <UserGroupIcon className="w-5 h-5 text-green-600" />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-800">وضعیت امروز</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="font-semibold text-gray-800 text-sm">وضعیت امروز</p>
+                  <p className="text-xs text-gray-500">
                     {stats.today} سفارش امروز ثبت شده
                   </p>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* اطلاعات کاربری */}
-          <div className="mt-6 pt-6 border-t border-gray-100">
-            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl">
-                🖨️
-              </div>
-              <div>
-                <p className="font-semibold text-gray-800">چاپخانه هوشمند</p>
-                <p className="text-sm text-gray-500">
-                  {orders.length} سفارش ثبت شده
-                </p>
               </div>
             </div>
           </div>
